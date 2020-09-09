@@ -23,5 +23,12 @@
 	"homepage": "https://github.com/demola07/nodejs-examples-initiative-challenge#readme",
 	"dependencies": {
 		"express": "^4.17.1"
+	},
+	"devDependencies": {
+		"eslint": "^7.8.1",
+		"eslint-config-prettier": "^6.11.0",
+		"nock": "^13.0.4",
+		"prettier": "^2.1.1",
+		"tape": "^5.0.1"
 	}
 }
