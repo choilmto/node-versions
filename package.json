@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tape test/",
     "start": "node index"
   },
   "repository": {
@@ -22,11 +22,15 @@
   },
   "homepage": "https://github.com/demola07/nodejs-examples-initiative-challenge#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "bent": "^7.3.10",
+    "express": "^4.17.1",
+    "hbs": "^4.1.1",
+    "semver": "^7.3.2"
   },
   "devDependencies": {
     "eslint": "^7.8.1",
     "eslint-config-prettier": "^6.11.0",
+    "get-port": "^5.1.1",
     "nock": "^13.0.4",
     "prettier": "^2.1.1",
     "tape": "^5.0.1"

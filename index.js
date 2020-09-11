@@ -1,6 +1,5 @@
-const express = require("express");
+const server = require("./server");
 
-const app = express();
 const PORT = 3000;
 
-app.listen(PORT);
+server.then((app) => app.listen(PORT)).catch((err) => console.log(err));
