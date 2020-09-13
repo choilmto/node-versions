@@ -5,12 +5,16 @@ const nock = require("nock");
 const server = require("../server");
 const distributions = require("./distributions");
 const minSecure = require("./minimum-secure");
+const latestReleases = require("./latest-releases");
 
 const getJSON = bent("json");
 const getBuffer = bent("buffer");
 
 // Use `nock` to prevent live calls to remote services
-nock("https://nodejs.org").get("/dist/index.json").reply(200, distributions);
+nock("https://nodejs.org")
+  .persist()
+  .get("/dist/index.json")
+  .reply(200, distributions);
 
 const context = {};
 
@@ -53,9 +57,16 @@ tape("should get dependencies", async function (t) {
 });
 
 tape("should get minimum secure versions", async function (t) {
-  const nodeDists = await getJSON(`${context.origin}/minimum-secure`);
+  const dists = await getJSON(`${context.origin}/minimum-secure`);
   t.plan(1);
-  t.deepEqual(nodeDists, minSecure);
+  t.deepEqual(dists, minSecure);
+  t.end();
+});
+
+tape("should get latest version for each major release", async function (t) {
+  const dists = await getJSON(`${context.origin}/latest-releases`);
+  t.plan(1);
+  t.deepEqual(dists, latestReleases);
   t.end();
 });
 

@@ -44,7 +44,7 @@ app.get("/minimum-secure", async function (req, res) {
   for (const major of majors) {
     minSecureVersions.push({
       major: `v${major}`,
-      number: semver.maxSatisfying(secureDists, `^${parseInt(major)}`),
+      number: semver.maxSatisfying(secureDists, `^${major}`),
     });
   }
   const dists = nodeDists.reduce((accumulator, dist) => {
@@ -56,6 +56,25 @@ app.get("/minimum-secure", async function (req, res) {
     return accumulator;
   }, {});
   res.json(minSecure);
+});
+
+app.get("/latest-releases", async function (req, res) {
+  const nodeDists = await getJSON("https://nodejs.org/dist/index.json");
+  const majors = nodeDists.reduce(
+    (accumulator, dist) => accumulator.add(semver.major(dist.version)),
+    new Set()
+  );
+  const dists = nodeDists.reduce((accumulator, dist) => {
+    accumulator[dist.version] = dist;
+    return accumulator;
+  }, {});
+  const releases = nodeDists.map((dist) => dist.version);
+  let latestReleases = {};
+  for (const major of majors) {
+    const max = semver.maxSatisfying(releases, `^${major}`);
+    latestReleases[`v${major}`] = dists[max];
+  }
+  res.json(latestReleases);
 });
 
 const server = register(__dirname + "/views").then(() => app);
