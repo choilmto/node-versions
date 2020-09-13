@@ -12,23 +12,11 @@ const getJSON = bent("json");
 app.set("view engine", "hbs");
 
 app.get("/dependencies", function (req, res) {
-  res.render(
-    "dependencies",
-    {
-      dependencies: Object.entries(package.dependencies).map(
-        (dep) => `${dep[0]} - ${dep[1]}`
-      ),
-    },
-    function (err, html) {
-      if (err) {
-        console.log(err);
-        res.writeHead(503);
-        res.end();
-        return;
-      }
-      res.send(html);
-    }
-  );
+  res.render("dependencies", {
+    dependencies: Object.entries(package.dependencies).map(
+      (dep) => `${dep[0]} - ${dep[1]}`
+    ),
+  });
 });
 
 app.get("/minimum-secure", async function (req, res) {
